@@ -31,7 +31,7 @@ public class DataAccess  {
 
 	ConfigXML c=ConfigXML.getInstance();
 
-     public DataAccess(boolean initializeMode)  {
+    public DataAccess(boolean initializeMode)  {
 		
 		System.out.println("Creating DataAccess instance => isDatabaseLocal: "+c.isDatabaseLocal()+" getDatabBaseOpenMode: "+c.getDataBaseOpenMode());
 
