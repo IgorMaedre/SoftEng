@@ -13,6 +13,8 @@ import domain.Question;
 import domain.Event;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
+import patterns.ExtendedIterator;
+import patterns.ExtendedIteratorInterface;
 
 /**
  * It implements the business logic as a web service.
@@ -84,14 +86,20 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @return collection of events
 	 */
     @WebMethod	
-	public Vector<Event> getEvents(Date date)  {
+	public ExtendedIterator<domain.Event> getEvents(Date date)  {
 		dbManager.open(false);
-		Vector<Event>  events=dbManager.getEvents(date);
+		Vector<Event> v = dbManager.getEvents(date);
+		ExtendedIterator<Event> events = ExtendedIterator(v);
 		dbManager.close();
 		return events;
 	}
 
     
+	private ExtendedIterator<Event> ExtendedIterator(Vector<Event> v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * This method invokes the data access to retrieve the dates a month for which there are events
 	 * 

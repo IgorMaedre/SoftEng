@@ -1,4 +1,4 @@
-package gui;
+package patterns;
 
 import java.awt.Color;
 import java.net.URL;
@@ -15,7 +15,7 @@ import patterns.GetBusinessLogic;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 
-public class ApplicationLauncher { 
+public class AdapterApplicationLauncher { 
 	
 	public static void main(String[] args) {
 
@@ -27,7 +27,7 @@ public class ApplicationLauncher {
 		
 		System.out.println("Locale: "+Locale.getDefault());
 		
-		MainGUI a=new MainGUI();
+		AdapterMainGUI a=new AdapterMainGUI();
 		a.setVisible(true);
 		
 		BLGetter blGet = new GetBusinessLogic();
@@ -37,32 +37,16 @@ public class ApplicationLauncher {
 			BLFacade appFacadeInterface;
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			
-			/*if (c.isBusinessLogicLocal()) {	//If local
-				DataAccess da= new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
-				appFacadeInterface=new BLFacadeImplementation(da);
-			} else { //If remote
-				
-				String serviceName= "http://"+c.getBusinessLogicNode() +":"+ c.getBusinessLogicPort()+"/ws/"+c.getBusinessLogicName()+"?wsdl";
-				 
-				URL url = new URL(serviceName);
-
-		        QName qname = new QName("http://businessLogic/", "BLFacadeImplementationService");
-		 
-		        Service service = Service.create(url, qname);
-
-		        appFacadeInterface = service.getPort(BLFacade.class);
-			} */
-			
 			appFacadeInterface = blGet.getBusinessLogic(c);
 			
-			MainGUI.setBussinessLogic(appFacadeInterface);
+			AdapterMainGUI.setBussinessLogic(appFacadeInterface);
 			
 		}catch (Exception e) {
 			
 			a.jLabelSelectOption.setText("Error: "+e.toString());
 			a.jLabelSelectOption.setForeground(Color.RED);	
 			
-			System.out.println("Error in ApplicationLauncher: "+e.toString());
+			System.out.println("Error in AdapterApplicationLauncher: "+e.toString());
 		}
 
 	}

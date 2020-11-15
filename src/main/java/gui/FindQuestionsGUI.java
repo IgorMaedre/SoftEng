@@ -5,6 +5,8 @@ import configuration.UtilDate;
 
 import com.toedter.calendar.JCalendar;
 import domain.Question;
+import patterns.ExtendedIterator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -117,11 +119,14 @@ public class FindQuestionsGUI extends JFrame {
 
 						BLFacade facade=MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events=facade.getEvents(firstDay);
+						ExtendedIterator<domain.Event> events=facade.getEvents(firstDay);
 
 						if (events.isEmpty() ) jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")+ ": "+dateformat1.format(calendarMio.getTime()));
 						else jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+ ": "+dateformat1.format(calendarMio.getTime()));
-						for (domain.Event ev:events){
+						domain.Event ev = null;
+						events.goFirst();
+						while (events.hasNext()){
+							ev = events.next();
 							Vector<Object> row = new Vector<Object>();
 
 							System.out.println("Events "+ev);

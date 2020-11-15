@@ -17,6 +17,7 @@ import configuration.UtilDate;
 import domain.Event;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
+import patterns.ExtendedIterator;
 
 public class CreateQuestionGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -123,7 +124,7 @@ public class CreateQuestionGUI extends JFrame {
 					try {
 						BLFacade facade = MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events = facade.getEvents(firstDay);
+						ExtendedIterator<domain.Event> events = facade.getEvents(firstDay);
 
 						if (events.isEmpty())
 							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")
@@ -133,8 +134,12 @@ public class CreateQuestionGUI extends JFrame {
 									+ dateformat1.format(calendarMio.getTime()));
 						jComboBoxEvents.removeAllItems();
 						System.out.println("Events " + events);
+						
+						events.goFirst();
+						domain.Event ev = null;
 
-						for (domain.Event ev : events)
+						while (events.hasNext())
+							ev = events.next();
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
